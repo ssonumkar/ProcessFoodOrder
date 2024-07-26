@@ -27,7 +27,7 @@ public class OrderService {
         order.setStatus("COMPLETED");
         orderRepository.save(order);
     }
-    private boolean validate(Order order) throws Exception {
+    private boolean validate(Order order) {
         for(Item item: order.getItems()){
             if(item.getItemType() != null && !this.itemTypeRepository.isItemTypeExist(item.getItemType()))
                 return false;

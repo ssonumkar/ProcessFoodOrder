@@ -33,15 +33,4 @@ public class Order {
     private double totalAmount;
     private String paymentMethod;
     private String paymentStatus;
-
-    // Add convenience methods for managing bidirectional relationships
-    public void addItem(Item item) {
-        items.add(item);
-        item.setOrder(this);
-    }
-
-    public void removeItem(Item item) {
-        items.remove(item);
-        item.setOrder(null);
-    }
 }
