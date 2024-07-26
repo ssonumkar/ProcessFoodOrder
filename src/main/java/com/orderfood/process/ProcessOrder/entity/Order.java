@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
-
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -13,24 +12,36 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
+    @Id
     private String orderId;
     private String customerId;
     private String restaurantId;
     private String orderDate;
     private String status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Item> items;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<Item> items;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address deliveryAddress;
 
     private double totalAmount;
     private String paymentMethod;
     private String paymentStatus;
+
+    // Add convenience methods for managing bidirectional relationships
+    public void addItem(Item item) {
+        items.add(item);
+        item.setOrder(this);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+        item.setOrder(null);
+    }
 }

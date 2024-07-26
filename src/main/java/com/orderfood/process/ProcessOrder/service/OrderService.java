@@ -18,6 +18,11 @@ public class OrderService {
     public void processOrder(Order order) throws Exception, OrderValidationException {
         if(!validate(order))
             throw new OrderValidationException("Invalid order");
+        if (order.getItems() != null) {
+            for (Item item : order.getItems()) {
+                item.setOrder(order);
+            }
+        }
         //add business logic
         order.setStatus("COMPLETED");
         orderRepository.save(order);

@@ -17,11 +17,11 @@ public class Item {
 
     private String name;
 
-//    @ManyToOne
     private String itemType;
     private int quantity;
     private double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private Order order;
 }
